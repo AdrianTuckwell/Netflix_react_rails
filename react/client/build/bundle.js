@@ -19781,6 +19781,8 @@
 	var _require = __webpack_require__(160),
 	    Link = _require.Link;
 	
+	var LoginBox = __webpack_require__(226);
+	
 	var Home = function Home() {
 	  return React.createElement(
 	    'div',
@@ -19789,7 +19791,8 @@
 	      'h1',
 	      { className: 'title' },
 	      'notflix'
-	    )
+	    ),
+	    React.createElement(LoginBox, null)
 	  );
 	};
 	
@@ -25598,6 +25601,85 @@
 	};
 	
 	module.exports = Main;
+
+/***/ },
+/* 226 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var LoginBox = _react2.default.createClass({
+	  displayName: 'LoginBox',
+	
+	
+	  getInitialState: function getInitialState() {
+	    return { currentUser: null };
+	  },
+	
+	  setUser: function setUser(user) {
+	    this.setState({ currentUser: user });
+	  },
+	
+	  fetchUser: function fetchUser() {
+	    var _this = this;
+	
+	    var request = new XMLHttpRequest();
+	    request.open('GET', "http://localhost:5000/users.json");
+	    request.setRequestHeader('content_Type', 'application/json');
+	    request.withCredentials = true; //to alow it to return a ccookie
+	
+	    request.onload = function () {
+	      if (request.status === 200) {
+	        var receivedUser = JSON.parse(request.responseText);
+	        _this.setUser(receivedUser);
+	      } else if (request.status === 401) {
+	        _this.setUser(false);
+	      }
+	    };
+	    request.send();
+	  },
+	
+	  componentDidMount: function componentDidMount() {
+	    this.fetchUser();
+	  },
+	
+	  render: function render() {
+	    var mainDiv = _react2.default.createElement(
+	      'div',
+	      null,
+	      _react2.default.createElement(
+	        'h4',
+	        null,
+	        'Please Sign in/up'
+	      )
+	    );
+	    if (this.state.currentUser) {
+	      mainDiv = _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'h4',
+	          null,
+	          ' Welcome ',
+	          this.state.currentUser.email
+	        )
+	      );
+	    }
+	    return _react2.default.createElement(
+	      'div',
+	      null,
+	      mainDiv
+	    );
+	  }
+	});
+	
+	module.exports = LoginBox;
 
 /***/ }
 /******/ ]);
