@@ -5,7 +5,7 @@ const LoginBox = require('../auth/LoginBox')
 const Home = () => (
   <div className="home">
     <h1 className='title'>notflix</h1>
-    <LoginBox />
+    <LoginBox url="http://localhost:5000/"/>
   </div>
 )
 

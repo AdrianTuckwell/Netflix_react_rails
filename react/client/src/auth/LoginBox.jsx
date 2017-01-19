@@ -1,4 +1,5 @@
 import React from 'react'
+const SignIn = require('./SignIn')
 
 const LoginBox = React.createClass({
 
@@ -12,7 +13,7 @@ const LoginBox = React.createClass({
 
   fetchUser: function(){
     var request = new XMLHttpRequest();
-    request.open('GET', "http://localhost:5000/users.json");
+    request.open('GET', this.props.url + "users.json");
     request.setRequestHeader('content_Type', 'application/json');
     request.withCredentials = true  //to alow it to return a ccookie
     
@@ -32,8 +33,11 @@ const LoginBox = React.createClass({
     this.fetchUser()
   },
 
-  render () {
-    var mainDiv = <div><h4>Please Sign in/up</h4></div>
+  render: function () {
+    var mainDiv = <div>
+      <h4>Please Sign in/up</h4>
+      <SignIn url={this.props.url + "users/sign_in.json"} onSignIn={this.setUser}></SignIn>
+    </div>
     if (this.state.currentUser){
       mainDiv = <div>
         <h4> Welcome {this.state.currentUser.email}</h4>
