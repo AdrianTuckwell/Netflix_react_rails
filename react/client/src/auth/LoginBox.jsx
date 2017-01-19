@@ -1,5 +1,6 @@
 import React from 'react'
 const SignIn = require('./SignIn')
+const SignUp = require('./SignUp')
 
 const LoginBox = React.createClass({
 
@@ -37,6 +38,8 @@ const LoginBox = React.createClass({
     var mainDiv = <div>
       <h4>Please Sign in/up</h4>
       <SignIn url={this.props.url + "users/sign_in.json"} onSignIn={this.setUser}></SignIn>
+
+      <SignUp url={this.props.url + "users/sign_up.json"} onSignIn={this.setUser}></SignUp>
     </div>
     if (this.state.currentUser){
       mainDiv = <div>

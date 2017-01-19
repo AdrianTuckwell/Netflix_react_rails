@@ -25615,6 +25615,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var SignIn = __webpack_require__(227);
+	var SignUp = __webpack_require__(233);
 	
 	var LoginBox = _react2.default.createClass({
 	  displayName: 'LoginBox',
@@ -25660,7 +25661,8 @@
 	        null,
 	        'Please Sign in/up'
 	      ),
-	      _react2.default.createElement(SignIn, { url: this.props.url + "users/sign_in.json", onSignIn: this.setUser })
+	      _react2.default.createElement(SignIn, { url: this.props.url + "users/sign_in.json", onSignIn: this.setUser }),
+	      _react2.default.createElement(SignUp, { url: this.props.url + "users/sign_up.json", onSignIn: this.setUser })
 	    );
 	    if (this.state.currentUser) {
 	      mainDiv = _react2.default.createElement(
@@ -25976,6 +25978,66 @@
 	};
 	
 	module.exports = ReactStateSetters;
+
+/***/ },
+/* 233 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var LinkedStateMixin = __webpack_require__(229);
+	
+	var SignUp = React.createClass({
+	  displayName: 'SignUp',
+	
+	  mixins: [LinkedStateMixin],
+	
+	  getInitialState: function getInitialState() {
+	    return { email: "", password: "", passwordConfirmation: "" };
+	  },
+	
+	  signUp: function signUp(e) {
+	    var _this = this;
+	
+	    e.preventDefault();
+	    var request = new XMLHttpRequest();
+	    request.open("POST", this.props.url);
+	    request.setRequestHeader("Content-Type", "application/json");
+	    request.withCredentials = true;
+	    request.onload = function () {
+	      if (request.status === 201) {
+	        var user = JSON.parse(request.responseText);
+	        _this.props.onSignUp(user);
+	      }
+	    };
+	    var data = {
+	      user: {
+	        email: this.state.email,
+	        password: this.state.password,
+	        password_confirmation: this.state.passwordConfirmation
+	      }
+	    };
+	    request.send(JSON.stringify(data));
+	  },
+	
+	  render: function render() {
+	    return React.createElement(
+	      'form',
+	      { onSubmit: this.signUp, className: 'login-form' },
+	      React.createElement('input', { type: 'text', valueLink: this.linkState('email'), placeholder: 'Email' }),
+	      React.createElement('input', { type: 'password', valueLink: this.linkState('password'), placeholder: 'Password' }),
+	      React.createElement('input', { type: 'password', valueLink: this.linkState('passwordConfirmation'), placeholder: 'Password Confirmation' }),
+	      React.createElement(
+	        'button',
+	        { onClick: this.signIn },
+	        '  Sign Up '
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = SignUp;
 
 /***/ }
 /******/ ]);
