@@ -37,7 +37,7 @@ const SignUp = React.createClass({
         <input type="password" valueLink={this.linkState('password')}  placeholder="Password" />
         <input type="password" valueLink={this.linkState('passwordConfirmation')}  placeholder="Password Confirmation" />
 
-        <button onClick={this.signIn}>  Sign Up </button>
+        <button type="submit">  Sign Up </button>
       </form>
     )
   }

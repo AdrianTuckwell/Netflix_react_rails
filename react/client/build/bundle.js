@@ -25616,7 +25616,7 @@
 	
 	var SignIn = __webpack_require__(227);
 	var SignUp = __webpack_require__(233);
-	
+	var SignOut = __webpack_require__(234);
 	var LoginBox = _react2.default.createClass({
 	  displayName: 'LoginBox',
 	
@@ -25662,7 +25662,7 @@
 	        'Please Sign in/up'
 	      ),
 	      _react2.default.createElement(SignIn, { url: this.props.url + "users/sign_in.json", onSignIn: this.setUser }),
-	      _react2.default.createElement(SignUp, { url: this.props.url + "users/sign_up.json", onSignIn: this.setUser })
+	      _react2.default.createElement(SignUp, { url: this.props.url + "users.json", onSignUp: this.setUser })
 	    );
 	    if (this.state.currentUser) {
 	      mainDiv = _react2.default.createElement(
@@ -25673,7 +25673,8 @@
 	          null,
 	          ' Welcome ',
 	          this.state.currentUser.email
-	        )
+	        ),
+	        _react2.default.createElement(SignOut, { url: this.props.url + "users/sign_out.json", onSignOut: this.setUser })
 	      );
 	    }
 	    return _react2.default.createElement(
@@ -26030,7 +26031,7 @@
 	      React.createElement('input', { type: 'password', valueLink: this.linkState('passwordConfirmation'), placeholder: 'Password Confirmation' }),
 	      React.createElement(
 	        'button',
-	        { onClick: this.signIn },
+	        { type: 'submit' },
 	        '  Sign Up '
 	      )
 	    );
@@ -26038,6 +26039,59 @@
 	});
 	
 	module.exports = SignUp;
+
+/***/ },
+/* 234 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	
+	var _require = __webpack_require__(160),
+	    Link = _require.Link;
+	
+	var SignOut = React.createClass({
+	  displayName: 'SignOut',
+	
+	
+	  signOut: function signOut(e) {
+	    var _this = this;
+	
+	    e.preventDefault();
+	    var request = new XMLHttpRequest();
+	    request.open("DELETE", this.props.url);
+	    request.setRequestHeader("Content-Type", "application/json");
+	    request.withCredentials = true;
+	    request.onload = function () {
+	      console.log("signed out", request.status);
+	      if (request.status === 204) {
+	        _this.props.onSignOut(null);
+	      }
+	    };
+	    request.send();
+	  },
+	
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'button',
+	        { onClick: this.signOut },
+	        'Sign Out'
+	      ),
+	      React.createElement(
+	        Link,
+	        { className: 'shows-link', to: '/shows' },
+	        'View Shows'
+	      )
+	    );
+	  }
+	
+	});
+	
+	module.exports = SignOut;
 
 /***/ }
 /******/ ]);

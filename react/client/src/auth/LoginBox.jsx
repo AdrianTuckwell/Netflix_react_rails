@@ -1,7 +1,7 @@
 import React from 'react'
 const SignIn = require('./SignIn')
 const SignUp = require('./SignUp')
-
+const SignOut = require('./SignOut')
 const LoginBox = React.createClass({
 
   getInitialState: function(){
@@ -37,13 +37,14 @@ const LoginBox = React.createClass({
   render: function () {
     var mainDiv = <div>
       <h4>Please Sign in/up</h4>
-      <SignIn url={this.props.url + "users/sign_in.json"} onSignIn={this.setUser}></SignIn>
+      <SignIn url={this.props.url + "users/sign_in.json"} onSignIn={this.setUser}/>
 
-      <SignUp url={this.props.url + "users/sign_up.json"} onSignIn={this.setUser}></SignUp>
+      <SignUp url={this.props.url + "users.json"} onSignUp={this.setUser}/>
     </div>
     if (this.state.currentUser){
       mainDiv = <div>
         <h4> Welcome {this.state.currentUser.email}</h4>
+        <SignOut url={this.props.url + "users/sign_out.json"} onSignOut={this.setUser}/>
       </div>
     }
     return(
